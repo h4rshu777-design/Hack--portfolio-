@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hacks — Coding, AI, Technology &amp; Projects</title>
+<meta name="description" content="Hacks — the digital headquarters of a self-learning developer. Projects, bots, automation tools, AI &amp; coding updates, and open collaboration.">
+<meta name="theme-color" content="#060b13">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hacks — Coding, AI, Technology & Projects">
+<meta property="og:description" content="A self-learning developer's digital headquarters. Projects, bots, tools, AI/coding updates, and collaboration.">
+<meta property="og:site_name" content="Hacks">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hacks — Coding, AI, Technology & Projects">
+<meta name="twitter:description" content="A self-learning developer's digital headquarters. Projects, bots, tools, AI/coding updates, and collaboration.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23081018'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='58' font-weight='700' fill='%2323e0d6' text-anchor='middle'%3E%3C/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#060b13;
+  --bg-alt:#0a1420;
+  --surface:#0d1826;
+  --surface-2:#0f1e2e;
+  --border:rgba(120,200,210,0.14);
+  --border-strong:rgba(45,212,191,0.35);
+  --cyan:#22d3ee;
+  --teal:#2dd4bf;
+  --violet:#8b7cf6;
+  --text:#eaf2f6;
+  --muted:#8ca0b3;
+  --muted-2:#5d7186;
+  --danger:#f4735b;
+  --radius:14px;
+  --grad: linear-gradient(100deg,var(--cyan),var(--teal));
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --maxw:1180px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+body.lock{overflow:hidden;height:100vh;}
+
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+button{font-family:inherit;cursor:pointer;}
+input,textarea,select{font-family:inherit;}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+section{position:relative;padding:96px 0;}
+@media (max-width:720px){section{padding:64px 0;}}
+
+/* background grid + glow, fixed */
+.bg-fx{
+  position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(34,211,238,0.10), transparent 42%),
+    radial-gradient(circle at 88% 18%, rgba(139,124,246,0.08), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(45,212,191,0.08), transparent 45%),
+    var(--bg);
+}
+.bg-grid{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(120,200,210,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,200,210,0.045) 1px, transparent 1px);
+  background-size:42px 42px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* ============ TYPE ============ */
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--teal);
+  display:inline-flex;align-items:center;gap:8px;
+  margin-bottom:14px;
+}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:2px;background:var(--grad);box-shadow:0 0 10px var(--cyan);}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;letter-spacing:-0.01em;color:#fff;}
+h2.section-title{font-size:clamp(28px,4vw,42px);margin-bottom:14px;}
+p.section-lead{color:var(--muted);max-width:640px;font-size:16px;}
+.grad-text{
+  background:var(--grad);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.mono{font-family:var(--font-mono);}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ============ LOADER ============ */
+#loader{
+  position:fixed;inset:0;z-index:999;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  transition:opacity .6s ease, visibility .6s ease;
+}
+#loader.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-logo{
+  font-family:var(--font-mono);font-weight:700;font-size:15px;letter-spacing:.3em;
+  color:var(--muted);display:flex;align-items:center;gap:10px;
+}
+.loader-mark{
+  font-family:var(--font-display);font-weight:700;font-size:34px;color:#fff;letter-spacing:0.02em;
+  display:flex;align-items:center;gap:10px;
+}
+.loader-mark .tag{
+  font-family:var(--font-mono);font-size:20px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.loader-status{
+  font-family:var(--font-mono);font-size:12px;color:var(--muted-2);letter-spacing:.12em;min-height:16px;
+}
+.loader-bar{
+  width:220px;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;
+}
+.loader-bar i{
+  display:block;height:100%;width:0%;background:var(--grad);box-shadow:0 0 12px var(--cyan);
+  transition:width .25s ease;
+}
+
+/* ============ NAV ============ */
+header#nav{
+  position:sticky;top:0;z-index:200;
+  backdrop-filter:blur(14px);
+  background:rgba(6,11,19,0.72);
+  border-bottom:1px solid var(--border);
+}
+.nav-row{
+  max-width:var(--maxw);margin:0 auto;padding:16px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brand{font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:0.02em;display:flex;align-items:center;gap:2px;}
+.brand .br{color:var(--teal);}
+.nav-links{display:flex;gap:30px;align-items:center;}
+.nav-links a{
+  font-size:13.5px;color:var(--muted);font-weight:500;position:relative;padding:4px 0;
+  transition:color .2s ease;
+}
+.nav-links a:hover{color:#fff;}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--grad);transition:width .25s ease;
+}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{
+  font-family:var(--font-mono);font-size:12.5px;font-weight:500;
+  border:1px solid var(--border-strong);color:var(--teal);
+  padding:9px 16px;border-radius:8px;background:rgba(45,212,191,0.06);
+  transition:all .2s ease;white-space:nowrap;
+}
+.nav-cta:hover{background:rgba(45,212,191,0.14);box-shadow:0 0 18px rgba(45,212,191,0.18);}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:all .25s ease;}
+.mobile-menu{
+  display:none;position:fixed;inset:0 0 0 auto;width:78%;max-width:320px;height:100vh;
+  background:var(--bg-alt);border-left:1px solid var(--border);z-index:300;
+  padding:90px 28px 28px;transform:translateX(100%);transition:transform .35s ease;
+  flex-direction:column;gap:26px;
+}
+.mobile-menu.open{transform:translateX(0);}
+.mobile-menu a{font-size:16px;color:var(--text);font-family:var(--font-display);}
+.mobile-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:250;opacity:0;visibility:hidden;transition:all .3s ease;}
+.mobile-overlay.open{opacity:1;visibility:visible;}
+
+@media (max-width:860px){
+  .nav-links, .nav-cta.desktop-only{display:none;}
+  .hamburger{display:flex;}
+  .mobile-menu{display:flex;}
+}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;justify-content:center;
+  font-family:var(--font-mono);font-size:13.5px;font-weight:500;letter-spacing:0.01em;
+  padding:13px 24px;border-radius:10px;border:1px solid transparent;
+  transition:all .22s ease;cursor:pointer;white-space:nowrap;
+}
+.btn-primary{
+  background:var(--grad);color:#04141a;font-weight:600;
+  box-shadow:0 0 0 rgba(45,212,191,0);
+}
+.btn-primary:hover{box-shadow:0 6px 28px rgba(45,212,191,0.35);transform:translateY(-1px);}
+.btn-ghost{
+  border:1px solid var(--border-strong);color:var(--text);background:rgba(255,255,255,0.02);
+}
+.btn-ghost:hover{background:rgba(255,255,255,0.06);border-color:var(--cyan);}
+.btn-block{width:100%;}
+.btn[disabled]{opacity:0.5;cursor:not-allowed;}
+
+/* ============ HERO ============ */
+#hero{padding-top:120px;padding-bottom:80px;}
+.hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+@media (max-width:940px){.hero-grid{grid-template-columns:1fr;}}
+.hero-title{font-size:clamp(36px,5.4vw,58px);line-height:1.06;margin-bottom:20px;}
+.hero-sub{color:var(--muted);font-size:17px;max-width:520px;margin-bottom:32px;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px;}
+.hero-socials{display:flex;gap:14px;align-items:center;}
+.hero-socials a{
+  width:38px;height:38px;border:1px solid var(--border);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;color:var(--muted);
+  transition:all .2s ease;font-size:15px;
+}
+.hero-socials a:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(34,211,238,0.06);}
+
+.term{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,0.45);
+}
+.term-bar{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,0.015);
+}
+.term-dot{width:10px;height:10px;border-radius:50%;}
+.term-bar .term-title{margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--muted-2);}
+.term-body{padding:22px 20px;font-family:var(--font-mono);font-size:13.5px;line-height:2;min-height:220px;}
+.term-body .l1{color:var(--muted-2);}
+.term-body .l-cmd{color:var(--text);}
+.term-body .l-cmd::before{content:'$ ';color:var(--teal);}
+.term-body .l-ok{color:var(--teal);}
+.term-body .cursor{display:inline-block;width:7px;height:14px;background:var(--cyan);vertical-align:middle;animation:blink 1s steps(1) infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* ============ CARD BASE ============ */
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:26px;transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+.card:hover{border-color:var(--border-strong);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,0.3);}
+
+/* ============ ABOUT ============ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+@media (max-width:900px){.about-grid{grid-template-columns:1fr;}}
+.about-text p{color:var(--muted);margin-bottom:16px;font-size:15.5px;}
+.about-text strong{color:var(--text);font-weight:600;}
+
+.timeline{position:relative;padding-left:28px;}
+.timeline::before{content:'';position:absolute;left:6px;top:6px;bottom:6px;width:1px;background:linear-gradient(var(--cyan),transparent);}
+.tl-item{position:relative;padding-bottom:30px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{
+  content:'';position:absolute;left:-28px;top:3px;width:13px;height:13px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--teal);box-shadow:0 0 10px rgba(45,212,191,0.5);
+}
+.tl-stage{font-family:var(--font-mono);font-size:11.5px;color:var(--teal);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.tl-item h4{font-size:16px;margin-bottom:6px;}
+.tl-item p{color:var(--muted);font-size:14.5px;}
+
+/* ============ UPDATES ============ */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+@media (max-width:940px){.grid-3{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:640px){.grid-3{grid-template-columns:1fr;}}
+
+.tag{
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 9px;border-radius:6px;border:1px solid var(--border-strong);color:var(--teal);
+  background:rgba(45,212,191,0.06);
+}
+.update-card .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.update-card .date{font-family:var(--font-mono);font-size:11.5px;color:var(--muted-2);}
+.update-card h3{font-size:17px;margin-bottom:10px;line-height:1.3;}
+.update-card p{color:var(--muted);font-size:14px;margin-bottom:16px;}
+.readmore{font-family:var(--font-mono);font-size:12.5px;color:var(--cyan);display:inline-flex;align-items:center;gap:6px;}
+.readmore span{transition:transform .2s ease;}
+.update-card:hover .readmore span{transform:translateX(3px);}
+
+/* ============ FILTERS ============ */
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;margin:32px 0 34px;}
+.filter-btn{
+  font-family:var(--font-mono);font-size:12.5px;padding:9px 16px;border-radius:8px;
+  border:1px solid var(--border);color:var(--muted);background:transparent;transition:all .2s ease;
+}
+.filter-btn:hover{color:var(--text);border-color:var(--border-strong);}
+.filter-btn.active{color:#04141a;background:var(--grad);border-color:transparent;font-weight:600;}
+
+/* ============ PROJECTS ============ */
+.proj-card{display:flex;flex-direction:column;height:100%;}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:10px;}
+.status-pill{
+  font-family:var(--font-mono);font-size:10.5px;padding:4px 10px;border-radius:20px;letter-spacing:.05em;
+  white-space:nowrap;border:1px solid;
+}
+.status-live{color:#5eead4;border-color:rgba(94,234,212,0.4);background:rgba(45,212,191,0.08);}
+.status-building{color:#fbbf24;border-color:rgba(251,191,36,0.4);background:rgba(251,191,36,0.07);}
+.status-planning{color:#93c5fd;border-color:rgba(147,197,253,0.4);background:rgba(147,197,253,0.07);}
+.status-experimental{color:#c4b5fd;border-color:rgba(196,181,253,0.4);background:rgba(196,181,253,0.07);}
+.status-testing{color:#f0abfc;border-color:rgba(240,171,252,0.4);background:rgba(240,171,252,0.07);}
+.status-completed{color:#a3e635;border-color:rgba(163,230,53,0.4);background:rgba(163,230,53,0.07);}
+
+.proj-card h3{font-size:17.5px;margin-bottom:8px;}
+.proj-card p.desc{color:var(--muted);font-size:14px;margin-bottom:16px;flex-grow:1;}
+.stack-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}
+.stack-chip{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);padding:4px 9px;border:1px solid var(--border);border-radius:6px;}
+.proj-links{display:flex;gap:10px;border-top:1px solid var(--border);padding-top:16px;}
+.proj-links a{font-family:var(--font-mono);font-size:12px;color:var(--cyan);display:flex;align-items:center;gap:5px;}
+.proj-links a:hover{color:#fff;}
+
+/* ============ BOARD ============ */
+.board{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;overflow-x:auto;padding-bottom:8px;}
+@media (max-width:1080px){.board{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:640px){.board{grid-template-columns:1fr;}}
+.board-col{min-width:0;}
+.board-col-head{
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;
+}
+.board-card{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;
+}
+.board-card h4{font-size:13.5px;margin-bottom:6px;color:#fff;}
+.board-card p{font-size:12px;color:var(--muted);margin-bottom:8px;}
+.board-meta{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:10px;color:var(--muted-2);}
+.progress-bar{width:100%;height:3px;background:rgba(255,255,255,0.06);border-radius:3px;margin:8px 0;overflow:hidden;}
+.progress-bar i{display:block;height:100%;background:var(--grad);}
+
+/* ============ TOOLS ============ */
+.tool-card .tool-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.tool-icon{
+  width:40px;height:40px;border-radius:10px;background:rgba(34,211,238,0.08);border:1px solid var(--border-strong);
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);color:var(--cyan);font-size:15px;
+}
+.auth-note{
+  font-family:var(--font-mono);font-size:10.5px;color:var(--muted-2);margin-top:12px;padding-top:12px;
+  border-top:1px dashed var(--border);
+}
+
+/* ============ WORK WITH ME ============ */
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+@media (max-width:880px){.work-grid{grid-template-columns:1fr;}}
+.work-card{padding:34px;}
+.work-card .work-icon{
+  width:46px;height:46px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);color:#04141a;font-weight:700;margin-bottom:20px;font-size:18px;
+}
+.work-card h3{font-size:21px;margin-bottom:10px;}
+.work-card p{color:var(--muted);font-size:14.5px;margin-bottom:24px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-family:var(--font-mono);font-size:11.5px;color:var(--muted);margin-bottom:7px;letter-spacing:.04em;}
+.field input,.field textarea,.field select{
+  width:100%;background:var(--bg-alt);border:1px solid var(--border);color:var(--text);
+  padding:11px 13px;border-radius:8px;font-size:14px;transition:border-color .2s ease;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--cyan);}
+.field textarea{resize:vertical;min-height:80px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:520px){.field-row{grid-template-columns:1fr;}}
+.form-note{font-size:12px;color:var(--muted-2);margin-top:12px;text-align:center;}
+
+/* ============ COMMUNITY ============ */
+.community-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media (max-width:900px){.community-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:520px){.community-grid{grid-template-columns:1fr;}}
+.comm-card{text-align:center;padding:28px 18px;}
+.comm-card .ci{font-size:26px;margin-bottom:14px;}
+.comm-card h4{font-size:15px;margin-bottom:6px;}
+.comm-card p{font-size:12.5px;color:var(--muted-2);margin-bottom:18px;}
+
+/* ============ CONTACT ============ */
+.contact-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:50px;align-items:center;}
+@media (max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+.contact-links{display:flex;flex-direction:column;gap:12px;}
+.contact-link{
+  display:flex;align-items:center;justify-content:space-between;padding:16px 18px;
+  border:1px solid var(--border);border-radius:10px;transition:all .2s ease;
+}
+.contact-link:hover{border-color:var(--border-strong);background:rgba(45,212,191,0.04);}
+.contact-link .cl-left{display:flex;align-items:center;gap:12px;font-size:14.5px;}
+.contact-link .cl-left .ic{font-family:var(--font-mono);color:var(--teal);}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--border);padding:50px 0 30px;}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px;margin-bottom:40px;}
+@media (max-width:780px){.foot-grid{grid-template-columns:1fr 1fr;}}
+.foot-brand .brand{margin-bottom:10px;}
+.foot-brand p{color:var(--muted-2);font-size:13px;font-family:var(--font-mono);}
+.foot-col h5{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.foot-col a{display:block;font-size:13.5px;color:var(--muted);margin-bottom:10px;transition:color .2s ease;}
+.foot-col a:hover{color:var(--cyan);}
+.foot-bottom{
+  display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border);
+  font-family:var(--font-mono);font-size:12px;color:var(--muted-2);flex-wrap:wrap;gap:10px;
+}
+
+/* utility */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+</style>
+</head>
+<body class="lock">
+
+<!-- ============ LOADER ============ -->
+<div id="loader">
+  <div class="loader-mark"><span>HACKS</span></div>
+  <div class="loader-status" id="loaderStatus">initializing_system</div>
+  <div class="loader-bar"><i id="loaderFill"></i></div>
+</div>
+
+<div class="bg-fx" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header id="nav">
+  <div class="nav-row">
+    <a href="#hero" class="brand">HACKS<span class="br">.</span></a>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#updates">Tech Updates</a>
+      <a href="#projects">Projects</a>
+      <a href="#tools">Tools</a>
+      <a href="#work">Collaborate</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#work" class="nav-cta desktop-only">Let's Build →</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="#hero">Home</a>
+  <a href="#about">About</a>
+  <a href="#updates">Tech Updates</a>
+  <a href="#projects">Projects</a>
+  <a href="#board">Project Board</a>
+  <a href="#tools">Tools</a>
+  <a href="#work">Collaborate</a>
+  <a href="#community">Community</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <div class="eyebrow">self-learner · developer · builder</div>
+      <h1 class="hero-title">Building in the <span class="grad-text">Era of AI.</span></h1>
+      <p class="hero-sub">I'm Hacks — a self-taught developer exploring code, automation and artificial intelligence one project at a time. I build bots, tools and experiments while learning in public, and I'm always open to building something new with other developers.</p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn btn-primary">Explore My Work</a>
+        <a href="#work" class="btn btn-ghost">Let's Build Together</a>
+      </div>
+      <div class="hero-socials" aria-label="Social shortcuts">
+        <a href="https://t.me/Lexdevs" target="_blank" rel="noopener" title="Telegram">TG</a>
+        <a href="https://t.me/helixown" target="_blank" rel="noopener" title="Telegram Channel">CH</a>
+        <a href="https://wa.me/380711020002" target="_blank" rel="noopener" title="WhatsApp">WA</a>
+        <a href="https://whatsapp.com/channel/0029VbDa1FGE50UciF2JEd2V" target="_blank" rel="noopener" title="WhatsApp Channel">WC</a>
+      </div>
+    </div>
+
+    <div class="term reveal">
+      <div class="term-bar">
+        <span class="term-dot" style="background:#f4735b"></span>
+        <span class="term-dot" style="background:#fbbf24"></span>
+        <span class="term-dot" style="background:#2dd4bf"></span>
+        <span class="term-title">hacks@dev — zsh</span>
+      </div>
+      <div class="term-body" id="heroTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="eyebrow">about</div>
+        <h2 class="section-title">My Journey</h2>
+        <div class="about-text">
+          <p><strong>I'm a self-learning developer</strong> exploring the overlap between coding, automation and artificial intelligence. Most of what I know, I've learned by building — reading docs, breaking things, and fixing them again.</p>
+          <p>My work leans toward <strong>practical tools</strong>: Telegram bots, automation scripts, developer utilities, and small experiments that teach me something new about how software — and now AI — actually gets built.</p>
+          <p>I don't come from a formal background or a big team. This is a one-person, always-learning operation, and <strong>Hacks</strong> is where that learning becomes something real: shipped code, open projects, and honest updates on what I'm figuring out.</p>
+          <p>I'm especially curious about how <strong>AI is reshaping development</strong> — new tools, new workflows, and what it means to build software in this era. I write about that as I go, and I'm always up for collaborating with other developers who are learning the same way.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-stage">Stage 01</div>
+            <h4>Getting Started</h4>
+            <p>Picked up programming fundamentals through self-study — documentation, tutorials, and a lot of trial and error.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-stage">Stage 02</div>
+            <h4>Learning by Building</h4>
+            <p>Started building small real projects instead of just following courses — the fastest way I found to actually learn.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-stage">Stage 03</div>
+            <h4>Bots &amp; Automation</h4>
+            <p>Moved into Telegram bots and automation tooling, learning APIs, hosting, and how to ship something people can use.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-stage">Stage 04</div>
+            <h4>AI + Coding Era</h4>
+            <p>Currently exploring how AI tools change the way developers build — and folding that into how I learn and work.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-stage">Ongoing</div>
+            <h4>Always Evolving</h4>
+            <p>Continuously experimenting, documenting what I learn, and looking for developers to build alongside.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI + CODING ERA / TECH UPDATES ============ -->
+<section id="updates">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">the ai + coding era</div>
+      <h2 class="section-title">Tech Updates</h2>
+      <p class="section-lead">Notes and observations from what I'm learning, building and following — AI, coding trends, developer tools, and the shifts happening across the industry. Updated as I go.</p>
+    </div>
+    <div class="grid-3" id="updatesGrid" style="margin-top:40px;"></div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">selected work</div>
+      <h2 class="section-title">Projects</h2>
+      <p class="section-lead">Bots, tools and experiments I've built or am actively building. Not everything here is live — some are still in progress, and that's part of the process.</p>
+    </div>
+    <div class="filter-row" id="projectFilters"></div>
+    <div class="grid-3" id="projectsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ PROJECT BOARD ============ -->
+<section id="board">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">workspace</div>
+      <h2 class="section-title">Project Board</h2>
+      <p class="section-lead">A live look at what stage everything is in — from early planning to completed work.</p>
+    </div>
+    <div class="board" id="boardGrid" style="margin-top:36px;"></div>
+  </div>
+</section>
+
+<!-- ============ TOOLS ============ -->
+<section id="tools">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">tools &amp; experiments</div>
+      <h2 class="section-title">Tools I've Built</h2>
+      <p class="section-lead">Small utilities and experiments built for learning, testing and personal use. Anything touching sensitive data is built and shared strictly for authorized, educational purposes.</p>
+    </div>
+    <div class="grid-3" id="toolsGrid" style="margin-top:40px;"></div>
+  </div>
+</section>
+
+<!-- ============ WORK WITH ME ============ -->
+<section id="work">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:40px;">
+      <div class="eyebrow">work with me</div>
+      <h2 class="section-title">Let's Build Something Together</h2>
+      <p class="section-lead">Two ways to work with me — get something built, or build something with me.</p>
+    </div>
+
+    <div class="work-grid">
+      <div class="card work-card reveal">
+        <div class="work-icon">01</div>
+        <h3>Book a Project</h3>
+        <p>Want me to build a tool, bot or website for you? Send over the details and I'll get back to you. No guaranteed timelines or pricing up front — every project is scoped individually.</p>
+        <form id="bookForm">
+          <div class="field"><label for="b-name">Name</label><input id="b-name" required></div>
+          <div class="field"><label for="b-contact">Contact (Telegram / Email / WhatsApp)</label><input id="b-contact" required></div>
+          <div class="field">
+            <label for="b-type">Project Type</label>
+            <select id="b-type">
+              <option>Telegram Bot</option>
+              <option>Automation Tool</option>
+              <option>Website</option>
+              <option>Utility / Script</option>
+              <option>AI-related Project</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field"><label for="b-desc">Project Description</label><textarea id="b-desc" required></textarea></div>
+          <div class="field"><label for="b-features">Required Features</label><textarea id="b-features"></textarea></div>
+          <div class="field-row">
+            <div class="field"><label for="b-time">Expected Timeline</label><input id="b-time" placeholder="e.g. flexible, 2 weeks"></div>
+            <div class="field"><label for="b-budget">Budget (optional)</label><input id="b-budget"></div>
+          </div>
+          <div class="field"><label for="b-ref">Reference / Demo Link (optional)</label><input id="b-ref"></div>
+          <button type="submit" class="btn btn-primary btn-block">Send Project Request</button>
+          <p class="form-note">Opens WhatsApp with your request pre-filled — nothing is stored on this site.</p>
+        </form>
+      </div>
+
+      <div class="card work-card reveal">
+        <div class="work-icon">02</div>
+        <h3>Build Together</h3>
+        <p>A developer looking to collaborate on bots, tools or AI/coding experiments? Tell me what you're into and what you'd like to build.</p>
+        <form id="collabForm">
+          <div class="field-row">
+            <div class="field"><label for="c-name">Name</label><input id="c-name" required></div>
+            <div class="field"><label for="c-user">Developer / Username</label><input id="c-user"></div>
+          </div>
+          <div class="field"><label for="c-skills">Skills</label><input id="c-skills" placeholder="e.g. Python, bots, frontend"></div>
+          <div class="field-row">
+            <div class="field"><label for="c-github">GitHub</label><input id="c-github"></div>
+            <div class="field"><label for="c-telegram">Telegram</label><input id="c-telegram"></div>
+          </div>
+          <div class="field"><label for="c-build">What do you want to build?</label><textarea id="c-build" required></textarea></div>
+          <div class="field"><label for="c-contribute">How can you contribute?</label><textarea id="c-contribute"></textarea></div>
+          <button type="submit" class="btn btn-primary btn-block">Send Collaboration Request</button>
+          <p class="form-note">Opens WhatsApp with your intro pre-filled — nothing is stored on this site.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMUNITY ============ -->
+<section id="community">
+  <div class="wrap">
+    <div class="reveal" style="margin-bottom:36px;">
+      <div class="eyebrow">community</div>
+      <h2 class="section-title">Join the Coding Community</h2>
+      <p class="section-lead">For anyone into coding, AI, technology, projects, learning or collaboration — connect through any of these channels.</p>
+    </div>
+    <div class="community-grid">
+      <div class="card comm-card reveal">
+        <div class="ci">TG</div>
+        <h4>Telegram Channel</h4>
+        <p>Updates, projects &amp; posts</p>
+        <a href="https://t.me/helixown" target="_blank" rel="noopener" class="btn btn-ghost btn-block">Join Channel</a>
+      </div>
+      <div class="card comm-card reveal">
+        <div class="ci">WA</div>
+        <h4>WhatsApp Channel</h4>
+        <p>Broadcast updates</p>
+        <a href="https://whatsapp.com/channel/0029VbDa1FGE50UciF2JEd2V" target="_blank" rel="noopener" class="btn btn-ghost btn-block">Join Channel</a>
+      </div>
+      <div class="card comm-card reveal">
+        <div class="ci">@</div>
+        <h4>Telegram DM</h4>
+        <p>@Lexdevs</p>
+        <a href="https://t.me/Lexdevs" target="_blank" rel="noopener" class="btn btn-ghost btn-block">Message</a>
+      </div>
+      <div class="card comm-card reveal">
+        <div class="ci">✆</div>
+        <h4>WhatsApp DM</h4>
+        <p>Direct message</p>
+        <a href="https://wa.me/380711020002" target="_blank" rel="noopener" class="btn btn-ghost btn-block">Message</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <div class="eyebrow">contact</div>
+      <h2 class="section-title">Have an idea, project or<br>collaboration in mind?</h2>
+      <p class="section-lead">Reach out directly — I read everything that comes through.</p>
+    </div>
+    <div class="contact-links reveal">
+      <a href="https://wa.me/380711020002" target="_blank" rel="noopener" class="contact-link">
+        <span class="cl-left"><span class="ic">✆</span> WhatsApp</span><span class="mono" style="font-size:12px;color:var(--muted-2)">→</span>
+      </a>
+      <a href="https://t.me/Lexdevs" target="_blank" rel="noopener" class="contact-link">
+        <span class="cl-left"><span class="ic">@</span> Telegram — @Lexdevs</span><span class="mono" style="font-size:12px;color:var(--muted-2)">→</span>
+      </a>
+      <a href="https://t.me/helixown" target="_blank" rel="noopener" class="contact-link">
+        <span class="cl-left"><span class="ic">TG</span> Telegram Channel</span><span class="mono" style="font-size:12px;color:var(--muted-2)">→</span>
+      </a>
+      <a href="https://whatsapp.com/channel/0029VbDa1FGE50UciF2JEd2V" target="_blank" rel="noopener" class="contact-link">
+        <span class="cl-left"><span class="ic">WA</span> WhatsApp Channel</span><span class="mono" style="font-size:12px;color:var(--muted-2)">→</span>
+      </a>
+      <a href="#work" class="contact-link">
+        <span class="cl-left"><span class="ic">01</span> Book a Project</span><span class="mono" style="font-size:12px;color:var(--muted-2)">→</span>
+      </a>
+      <a href="#work" class="contact-link">
+        <span class="cl-left"><span class="ic">02</span> Build Together</span><span class="mono" style="font-size:12px;color:var(--muted-2)">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">HACKS<span class="br">.</span></div>
+        <p>Learning. Coding. Building.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Site</h5>
+        <a href="#about">About</a>
+        <a href="#updates">Tech Updates</a>
+        <a href="#projects">Projects</a>
+        <a href="#tools">Tools</a>
+      </div>
+      <div class="foot-col">
+        <h5>Connect</h5>
+        <a href="#work">Collaborate</a>
+        <a href="#community">Community</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Social</h5>
+        <a href="https://t.me/Lexdevs" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://t.me/helixown" target="_blank" rel="noopener">Telegram Channel</a>
+        <a href="https://wa.me/380711020002" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://whatsapp.com/channel/0029VbDa1FGE50UciF2JEd2V" target="_blank" rel="noopener">WhatsApp Channel</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Hacks. All rights reserved.</span>
+      <span>Built &amp; maintained by Hacks</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ DATA (edit these arrays to update content) ============ */
+const UPDATES = [
+  {cat:"AI", date:"Update", title:"Exploring AI-assisted development", desc:"Notes on how AI coding assistants are changing the way I write, debug and learn — and where they still fall short."},
+  {cat:"Coding", date:"Update", title:"What I'm learning this month", desc:"A running log of languages, tools and concepts I'm currently digging into as a self-taught developer."},
+  {cat:"Developer Tools", date:"Update", title:"Tools worth trying", desc:"Small utilities and dev tools that have made building bots and automations noticeably faster."},
+  {cat:"Technology", date:"Update", title:"Where the industry seems to be heading", desc:"Personal observations on the skills and technologies that feel increasingly worth learning right now."},
+  {cat:"Projects", date:"Update", title:"Behind the scenes of Hacks", desc:"How this site and the projects behind it are being built, one iteration at a time."},
+  {cat:"Learning", date:"Update", title:"Lessons from shipping bots", desc:"What building and maintaining Telegram bots has taught me about real-world software."}
+];
+
+const PROJECTS = [
+  {name:"Encoding Bot", cat:"Bots", status:"live", desc:"A Telegram utility bot for encoding/decoding common formats — built for quick developer tasks.", stack:["Python","Telegram API"], links:{source:"#"}},
+  {name:"Hosting Bot", cat:"Automation", status:"building", desc:"An automation bot that helps manage and monitor simple hosting/deployment tasks.", stack:["Node.js","Automation"], links:{}},
+  {name:"Music Bot", cat:"Bots", status:"live", desc:"A Telegram bot for streaming and managing music in group chats.", stack:["Python","Telegram API"], links:{demo:"#"}},
+  {name:"File Processing Bot", cat:"Utilities", status:"testing", desc:"Handles file receiving, conversion and processing tasks through a simple chat interface.", stack:["Python","File I/O"], links:{}},
+  {name:"Developer Utility Tool", cat:"Tools", status:"experimental", desc:"A collection of small commands that speed up repetitive developer tasks.", stack:["Node.js","CLI"], links:{source:"#"}},
+  {name:"Repository Utility Tool", cat:"Tools", status:"planning", desc:"A planned tool for exploring and summarizing GitHub repository activity.", stack:["GitHub API"], links:{}},
+  {name:"Automation Bot", cat:"Automation", status:"building", desc:"A general-purpose bot for scripting repetitive workflows and notifications.", stack:["Python","Webhooks"], links:{}},
+  {name:"AI Utility Experiments", cat:"AI", status:"experimental", desc:"Ongoing experiments combining AI APIs with small developer-facing utilities.", stack:["AI APIs","Python"], links:{}},
+  {name:"Portfolio Site — Hacks", cat:"Web", status:"live", desc:"This site — a personal developer hub built to showcase projects and updates.", stack:["HTML","CSS","JS"], links:{demo:"#hero"}}
+];
+
+const TOOLS = [
+  {icon:"TG", name:"Telegram → Info Utility", desc:"A lookup utility for public Telegram-related information, built for authorized developer testing.", stack:"Python · Telegram API", status:"experimental"},
+  {icon:"IG", name:"Instagram Utility", desc:"An experimental utility for exploring public profile data, for educational and testing purposes only.", stack:"Python", status:"experimental"},
+  {icon:"#", name:"Number → Info Utility", desc:"A developer tool for testing number-format validation and public lookup APIs.", stack:"Node.js", status:"testing"},
+  {icon:"@", name:"Number → Gmail Utility", desc:"A testing utility exploring number-to-account association APIs for authorized development use.", stack:"Python", status:"experimental"},
+  {icon:"GH", name:"GitHub Repo Utility", desc:"Fetches and summarizes repository stats for quick developer reference.", stack:"GitHub API", status:"building"},
+  {icon:"FS", name:"File Utilities", desc:"A set of small scripts for batch file conversion, renaming and cleanup.", stack:"Python", status:"live"}
+];
+
+const BOARD = {
+  Planning:[{name:"Repository Utility Tool", desc:"Scoping GitHub API integration.", tech:"GitHub API", progress:15}],
+  Building:[{name:"Hosting Bot", desc:"Core automation logic in progress.", tech:"Node.js", progress:45},{name:"Automation Bot", desc:"Webhook triggers being wired up.", tech:"Python", progress:35}],
+  Testing:[{name:"File Processing Bot", desc:"Running edge-case tests on file types.", tech:"Python", progress:70}],
+  Live:[{name:"Encoding Bot", desc:"Stable and in active use.", tech:"Python", progress:100},{name:"Music Bot", desc:"Running in production groups.", tech:"Python", progress:100}],
+  Completed:[{name:"Portfolio Site — Hacks", desc:"Initial version shipped.", tech:"HTML/CSS/JS", progress:100}],
+  Experimental:[{name:"AI Utility Experiments", desc:"Testing small AI-assisted workflows.", tech:"AI APIs", progress:20},{name:"Developer Utility Tool", desc:"Prototype CLI commands.", tech:"Node.js", progress:25}]
+};
+
+const STATUS_LABEL = {live:"LIVE", building:"BUILDING", testing:"TESTING", planning:"PLANNING", experimental:"EXPERIMENTAL", completed:"COMPLETED"};
+
+/* ============ RENDER ============ */
+function el(html){const d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild;}
+
+function renderUpdates(){
+  const grid=document.getElementById('updatesGrid');
+  UPDATES.forEach(u=>{
+    grid.appendChild(el(`
+      <div class="card update-card reveal">
+        <div class="meta"><span class="tag">${u.cat}</span><span class="date">${u.date}</span></div>
+        <h3>${u.title}</h3>
+        <p>${u.desc}</p>
+        <span class="readmore">Read More <span>→</span></span>
+      </div>
+    `));
+  });
+}
+
+function renderProjects(filter='All'){
+  const grid=document.getElementById('projectsGrid');
+  grid.innerHTML='';
+  const list = filter==='All' ? PROJECTS : PROJECTS.filter(p=>p.cat===filter);
+  list.forEach(p=>{
+    const links = [];
+    if(p.links.source) links.push(`<a href="${p.links.source}">Source →</a>`);
+    if(p.links.demo) links.push(`<a href="${p.links.demo}">View Project →</a>`);
+    grid.appendChild(el(`
+      <div class="card proj-card reveal in">
+        <div class="proj-top">
+          <h3>${p.name}</h3>
+          <span class="status-pill status-${p.status}">${STATUS_LABEL[p.status]}</span>
+        </div>
+        <p class="desc">${p.desc}</p>
+        <div class="stack-row">${p.stack.map(s=>`<span class="stack-chip">${s}</span>`).join('')}</div>
+        <div class="proj-links">${links.join('') || '<span style="color:var(--muted-2);font-family:var(--font-mono);font-size:12px;">Details on request</span>'}</div>
+      </div>
+    `));
+  });
+}
+
+function renderFilters(){
+  const cats = ['All', ...new Set(PROJECTS.map(p=>p.cat))];
+  const row = document.getElementById('projectFilters');
+  cats.forEach(c=>{
+    const btn = el(`<button class="filter-btn ${c==='All'?'active':''}">${c}</button>`);
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProjects(c);
+    });
+    row.appendChild(btn);
+  });
+}
+
+function renderTools(){
+  const grid=document.getElementById('toolsGrid');
+  TOOLS.forEach(t=>{
+    grid.appendChild(el(`
+      <div class="card tool-card reveal">
+        <div class="tool-head">
+          <div class="tool-icon">${t.icon}</div>
+          <div>
+            <h3 style="font-size:15.5px;">${t.name}</h3>
+            <span class="status-pill status-${t.status}" style="margin-top:4px;display:inline-block;">${STATUS_LABEL[t.status]}</span>
+          </div>
+        </div>
+        <p class="desc">${t.desc}</p>
+        <div class="stack-row"><span class="stack-chip">${t.stack}</span></div>
+        <div class="auth-note">For authorized, educational &amp; testing use only.</div>
+      </div>
+    `));
+  });
+}
+
+function renderBoard(){
+  const grid=document.getElementById('boardGrid');
+  Object.entries(BOARD).forEach(([stage,items])=>{
+    const col = el(`<div class="board-col reveal"><div class="board-col-head"><span>${stage}</span><span>${items.length}</span></div></div>`);
+    items.forEach(i=>{
+      col.appendChild(el(`
+        <div class="board-card">
+          <h4>${i.name}</h4>
+          <p>${i.desc}</p>
+          <div class="progress-bar"><i style="width:${i.progress}%"></i></div>
+          <div class="board-meta"><span>${i.tech}</span><span>${i.progress}%</span></div>
+        </div>
+      `));
+    });
+    grid.appendChild(col);
+  });
+}
+
+renderUpdates();
+renderFilters();
+renderProjects();
+renderTools();
+renderBoard();
+
+/* ============ HERO TERMINAL TYPE EFFECT ============ */
+const termLines = [
+  {cls:'l1', text:'system boot — hacks_dev_environment'},
+  {cls:'l-cmd', text:'whoami'},
+  {cls:'l-ok', text:'→ self-learning developer'},
+  {cls:'l-cmd', text:'status --current'},
+  {cls:'l-ok', text:'→ building, learning, evolving'},
+  {cls:'l-cmd', text:'focus'},
+  {cls:'l-ok', text:'→ code · automation · ai'}
+];
+function typeTerminal(){
+  const box = document.getElementById('heroTerm');
+  if(!box) return;
+  box.innerHTML='';
+  let li=0;
+  function nextLine(){
+    if(li>=termLines.length){
+      const cur = document.createElement('span');
+      cur.className='cursor';
+      box.appendChild(cur);
+      return;
+    }
+    const {cls,text} = termLines[li];
+    const lineEl = document.createElement('div');
+    lineEl.className = cls;
+    box.appendChild(lineEl);
+    let ci=0;
+    const speed = cls==='l-cmd' ? 38 : 14;
+    function typeChar(){
+      if(ci<text.length){
+        lineEl.textContent += text[ci];
+        ci++;
+        setTimeout(typeChar, speed);
+      } else {
+        li++;
+        setTimeout(nextLine, cls==='l-ok' ? 260 : 120);
+      }
+    }
+    typeChar();
+  }
+  nextLine();
+}
+
+/* ============ LOADER SEQUENCE ============ */
+const bootMsgs = ['initializing_system','loading_modules','connecting_dev_stack','ready'];
+let bi=0;
+const statusEl = document.getElementById('loaderStatus');
+const fillEl = document.getElementById('loaderFill');
+const bootTimer = setInterval(()=>{
+  bi++;
+  if(bi<bootMsgs.length){ statusEl.textContent = bootMsgs[bi]; }
+  fillEl.style.width = Math.min(100,(bi+1)*25)+'%';
+}, 260);
+
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    clearInterval(bootTimer);
+    fillEl.style.width='100%';
+    statusEl.textContent='ready';
+    setTimeout(()=>{
+      document.getElementById('loader').classList.add('hide');
+      document.body.classList.remove('lock');
+      typeTerminal();
+    }, 350);
+  }, 900);
+});
+/* fallback in case load event is delayed */
+setTimeout(()=>{
+  if(document.body.classList.contains('lock')){
+    clearInterval(bootTimer);
+    document.getElementById('loader').classList.add('hide');
+    document.body.classList.remove('lock');
+    typeTerminal();
+  }
+},3500);
+
+/* ============ MOBILE MENU ============ */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+const mobileOverlay=document.getElementById('mobileOverlay');
+function closeMenu(){mobileMenu.classList.remove('open');mobileOverlay.classList.remove('open');hamburger.setAttribute('aria-expanded','false');}
+hamburger.addEventListener('click',()=>{
+  const open = mobileMenu.classList.toggle('open');
+  mobileOverlay.classList.toggle('open',open);
+  hamburger.setAttribute('aria-expanded', open);
+});
+mobileOverlay.addEventListener('click', closeMenu);
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+
+/* ============ SCROLL REVEAL ============ */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(elx=>io.observe(elx));
+// re-observe dynamically added cards
+setTimeout(()=>{document.querySelectorAll('.reveal:not(.in)').forEach(elx=>io.observe(elx));},50);
+
+/* ============ FOOTER YEAR ============ */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ============ FORMS → WHATSAPP ============ */
+const WA_NUMBER = '380711020002';
+function waLink(text){ return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`; }
+
+document.getElementById('bookForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const msg = [
+    'Project Request — Hacks',
+    `Name: ${document.getElementById('b-name').value}`,
+    `Contact: ${document.getElementById('b-contact').value}`,
+    `Type: ${document.getElementById('b-type').value}`,
+    `Description: ${document.getElementById('b-desc').value}`,
+    `Features: ${document.getElementById('b-features').value || '—'}`,
+    `Timeline: ${document.getElementById('b-time').value || '—'}`,
+    `Budget: ${document.getElementById('b-budget').value || '—'}`,
+    `Reference: ${document.getElementById('b-ref').value || '—'}`
+  ].join('\n');
+  window.open(waLink(msg), '_blank');
+});
+
+document.getElementById('collabForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const msg = [
+    'Collaboration Request — Hacks',
+    `Name: ${document.getElementById('c-name').value}`,
+    `Username: ${document.getElementById('c-user').value || '—'}`,
+    `Skills: ${document.getElementById('c-skills').value || '—'}`,
+    `GitHub: ${document.getElementById('c-github').value || '—'}`,
+    `Telegram: ${document.getElementById('c-telegram').value || '—'}`,
+    `What they want to build: ${document.getElementById('c-build').value}`,
+    `How they can contribute: ${document.getElementById('c-contribute').value || '—'}`
+  ].join('\n');
+  window.open(waLink(msg), '_blank');
+});
+</script>
+</body>
+</html>
